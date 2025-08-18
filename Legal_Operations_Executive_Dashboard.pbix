@@ -1,0 +1,611 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "title": "Legal Operations Executive Intelligence Dashboard",
+    "description": "Comprehensive Power BI dashboard for legal operations management, compliance monitoring, and strategic decision support",
+    "author": "Emilio Cardenas",
+    "created_date": "2025-08-18",
+    "data_sources": ["Legal Case Management", "Compliance Systems", "Contract Analytics", "Regulatory Data", "Financial Systems"],
+    "refresh_schedule": "Daily 4:00 AM EST",
+    "target_audience": "General Counsel, Legal Operations Managers, Compliance Officers, C-Suite Executives"
+  },
+  "pages": [
+    {
+      "name": "Executive Overview",
+      "layout": "executive_summary",
+      "visuals": [
+        {
+          "type": "card",
+          "title": "Total Legal Spend",
+          "measure": "SUM(Legal_Expenses)",
+          "format": "$#,##0,,.0M",
+          "position": {"x": 0, "y": 0, "width": 2, "height": 1}
+        },
+        {
+          "type": "card", 
+          "title": "Active Cases",
+          "measure": "COUNTROWS(FILTER(Legal_Cases, Status = \"Active\"))",
+          "format": "#,##0",
+          "position": {"x": 2, "y": 0, "width": 2, "height": 1}
+        },
+        {
+          "type": "card",
+          "title": "Compliance Score",
+          "measure": "AVERAGE(Compliance_Rating)",
+          "format": "0.0",
+          "position": {"x": 4, "y": 0, "width": 2, "height": 1}
+        },
+        {
+          "type": "card",
+          "title": "Contract Value at Risk",
+          "measure": "SUM(Contract_Risk_Value)",
+          "format": "$#,##0,,.0M",
+          "position": {"x": 6, "y": 0, "width": 2, "height": 1}
+        },
+        {
+          "type": "line_chart",
+          "title": "Legal Spend Trends & Budget Variance",
+          "x_axis": "Month",
+          "y_axis": ["Actual_Spend", "Budgeted_Spend", "Forecast_Spend"],
+          "position": {"x": 0, "y": 1, "width": 4, "height": 3}
+        },
+        {
+          "type": "funnel_chart",
+          "title": "Case Resolution Pipeline",
+          "categories": ["Filed", "Discovery", "Motion_Practice", "Settlement_Negotiation", "Trial", "Resolution"],
+          "values": "Case_Count",
+          "position": {"x": 4, "y": 1, "width": 2, "height": 3}
+        },
+        {
+          "type": "gauge_chart",
+          "title": "Overall Risk Index",
+          "value": "Weighted_Risk_Score",
+          "target": "Risk_Threshold",
+          "min": 0,
+          "max": 100,
+          "position": {"x": 6, "y": 1, "width": 2, "height": 3}
+        },
+        {
+          "type": "stacked_bar_chart",
+          "title": "Legal Spend by Category",
+          "x_axis": "Quarter",
+          "y_axis": "Spend_Amount",
+          "series": ["Litigation", "Compliance", "Corporate", "Employment", "IP", "Regulatory"],
+          "position": {"x": 0, "y": 4, "width": 4, "height": 2}
+        },
+        {
+          "type": "matrix_chart",
+          "title": "Compliance Status by Business Unit",
+          "rows": "Business_Unit",
+          "columns": "Compliance_Area",
+          "values": "Compliance_Status",
+          "position": {"x": 4, "y": 4, "width": 4, "height": 2}
+        }
+      ]
+    },
+    {
+      "name": "Litigation Management",
+      "layout": "litigation_analytics",
+      "visuals": [
+        {
+          "type": "bar_chart",
+          "title": "Active Cases by Practice Area",
+          "x_axis": "Practice_Area",
+          "y_axis": "Case_Count",
+          "color": "Risk_Level",
+          "position": {"x": 0, "y": 0, "width": 4, "height": 3}
+        },
+        {
+          "type": "scatter_plot",
+          "title": "Case Value vs. Duration Analysis",
+          "x_axis": "Case_Duration_Days",
+          "y_axis": "Case_Value",
+          "size": "Legal_Fees_Spent",
+          "color": "Case_Type",
+          "position": {"x": 4, "y": 0, "width": 4, "height": 3}
+        },
+        {
+          "type": "waterfall_chart",
+          "title": "Monthly Litigation Cost Breakdown",
+          "categories": ["External_Counsel", "Internal_Resources", "Court_Fees", "Expert_Witnesses", "Discovery_Costs", "Settlement_Reserves"],
+          "values": "Cost_Amount",
+          "position": {"x": 0, "y": 3, "width": 4, "height": 3}
+        },
+        {
+          "type": "tree_map",
+          "title": "Cases by Opposing Counsel Firms",
+          "category": "Opposing_Firm",
+          "values": "Total_Case_Value",
+          "color": "Win_Rate_Against",
+          "position": {"x": 4, "y": 3, "width": 4, "height": 3}
+        },
+        {
+          "type": "combo_chart",
+          "title": "Settlement vs. Trial Outcomes",
+          "x_axis": "Month",
+          "y1_axis": "Settlement_Rate",
+          "y2_axis": "Average_Settlement_Amount",
+          "position": {"x": 0, "y": 6, "width": 4, "height": 2}
+        },
+        {
+          "type": "table",
+          "title": "High-Priority Cases Dashboard",
+          "columns": [
+            "Case_Number",
+            "Case_Name",
+            "Practice_Area", 
+            "Risk_Level",
+            "Potential_Exposure",
+            "Next_Milestone_Date",
+            "Assigned_Attorney"
+          ],
+          "sort_by": "Risk_Level",
+          "position": {"x": 4, "y": 6, "width": 4, "height": 2}
+        }
+      ]
+    },
+    {
+      "name": "Compliance Monitoring",
+      "layout": "compliance_dashboard",
+      "visuals": [
+        {
+          "type": "radar_chart",
+          "title": "Compliance Scorecard by Domain",
+          "metrics": ["Data_Privacy", "Financial_Regulations", "Employment_Law", "Environmental", "Industry_Specific", "International"],
+          "series": ["Current_Score", "Target_Score", "Industry_Benchmark"],
+          "position": {"x": 0, "y": 0, "width": 4, "height": 4}
+        },
+        {
+          "type": "heat_map",
+          "title": "Compliance Risk Heat Map",
+          "x_axis": "Business_Unit",
+          "y_axis": "Regulatory_Domain",
+          "values": "Risk_Score",
+          "position": {"x": 4, "y": 0, "width": 4, "height": 4}
+        },
+        {
+          "type": "column_chart",
+          "title": "Regulatory Violations & Penalties Trend",
+          "x_axis": "Month",
+          "y_axis": ["Violation_Count", "Penalty_Amount"],
+          "position": {"x": 0, "y": 4, "width": 4, "height": 3}
+        },
+        {
+          "type": "pie_chart",
+          "title": "Compliance Training Completion Status",
+          "category": "Training_Status",
+          "values": "Employee_Count",
+          "position": {"x": 4, "y": 4, "width": 2, "height": 3}
+        },
+        {
+          "type": "gauge_chart",
+          "title": "Audit Readiness Score",
+          "value": "Audit_Readiness_Index",
+          "target": "Target_Readiness_Score",
+          "min": 0,
+          "max": 100,
+          "position": {"x": 6, "y": 4, "width": 2, "height": 3}
+        },
+        {
+          "type": "timeline_chart",
+          "title": "Regulatory Change Implementation Timeline",
+          "x_axis": "Implementation_Date",
+          "series": "Regulation_Name",
+          "status": "Implementation_Status",
+          "position": {"x": 0, "y": 7, "width": 8, "height": 2}
+        }
+      ]
+    },
+    {
+      "name": "Contract Analytics",
+      "layout": "contract_intelligence",
+      "visuals": [
+        {
+          "type": "donut_chart",
+          "title": "Contract Portfolio by Type",
+          "category": "Contract_Type",
+          "values": "Contract_Value",
+          "position": {"x": 0, "y": 0, "width": 2, "height": 3}
+        },
+        {
+          "type": "bar_chart",
+          "title": "Contract Value at Risk by Risk Category",
+          "x_axis": "Risk_Category",
+          "y_axis": "Value_at_Risk",
+          "color": "Risk_Severity",
+          "position": {"x": 2, "y": 0, "width": 3, "height": 3}
+        },
+        {
+          "type": "line_chart",
+          "title": "Contract Expiration Timeline",
+          "x_axis": "Expiration_Month",
+          "y_axis": "Contract_Count",
+          "series": ["Requiring_Action", "Auto_Renewal", "Under_Review"],
+          "position": {"x": 5, "y": 0, "width": 3, "height": 3}
+        },
+        {
+          "type": "scatter_plot",
+          "title": "Contract Performance Analysis",
+          "x_axis": "Contract_Duration",
+          "y_axis": "Performance_Score",
+          "size": "Contract_Value",
+          "color": "Counterparty_Rating",
+          "position": {"x": 0, "y": 3, "width": 4, "height": 3}
+        },
+        {
+          "type": "waterfall_chart",
+          "title": "Contract Value Change Analysis",
+          "categories": ["New_Contracts", "Renewals", "Amendments", "Terminations", "Breaches"],
+          "values": "Value_Change",
+          "position": {"x": 4, "y": 3, "width": 4, "height": 3}
+        },
+        {
+          "type": "table",
+          "title": "High-Risk Contracts Requiring Attention",
+          "columns": [
+            "Contract_ID",
+            "Counterparty",
+            "Contract_Type",
+            "Value",
+            "Risk_Score",
+            "Expiration_Date",
+            "Required_Action"
+          ],
+          "sort_by": "Risk_Score",
+          "position": {"x": 0, "y": 6, "width": 8, "height": 2}
+        }
+      ]
+    },
+    {
+      "name": "Vendor Management",
+      "layout": "vendor_analytics",
+      "visuals": [
+        {
+          "type": "treemap",
+          "title": "Legal Vendor Spend Distribution",
+          "category": "Vendor_Name",
+          "values": "Annual_Spend",
+          "color": "Performance_Rating",
+          "position": {"x": 0, "y": 0, "width": 4, "height": 4}
+        },
+        {
+          "type": "bubble_chart",
+          "title": "Vendor Performance vs. Cost Analysis",
+          "x_axis": "Cost_Per_Hour",
+          "y_axis": "Performance_Score", 
+          "size": "Total_Spend",
+          "color": "Practice_Area",
+          "position": {"x": 4, "y": 0, "width": 4, "height": 4}
+        },
+        {
+          "type": "column_chart",
+          "title": "Vendor Diversity Metrics",
+          "x_axis": "Diversity_Category",
+          "y_axis": ["Spend_Amount", "Vendor_Count"],
+          "position": {"x": 0, "y": 4, "width": 4, "height": 3}
+        },
+        {
+          "type": "line_chart",
+          "title": "Vendor Invoice Processing Efficiency",
+          "x_axis": "Month",
+          "y_axis": ["Average_Processing_Time", "Invoice_Volume"],
+          "position": {"x": 4, "y": 4, "width": 4, "height": 3}
+        },
+        {
+          "type": "matrix_chart",
+          "title": "Vendor Risk Assessment Matrix",
+          "rows": "Risk_Category",
+          "columns": "Vendor_Name",
+          "values": "Risk_Rating",
+          "position": {"x": 0, "y": 7, "width": 8, "height": 2}
+        }
+      ]
+    },
+    {
+      "name": "Matter Economics",
+      "layout": "financial_analytics",
+      "visuals": [
+        {
+          "type": "waterfall_chart",
+          "title": "Legal Budget Performance",
+          "categories": ["Budget", "Litigation_Variance", "Compliance_Variance", "Regulatory_Variance", "Actual"],
+          "values": "Budget_Amount",
+          "position": {"x": 0, "y": 0, "width": 4, "height": 3}
+        },
+        {
+          "type": "combo_chart",
+          "title": "Cost per Matter Trends",
+          "x_axis": "Quarter",
+          "y1_axis": "Average_Cost_per_Matter",
+          "y2_axis": "Matter_Volume",
+          "position": {"x": 4, "y": 0, "width": 4, "height": 3}
+        },
+        {
+          "type": "bar_chart",
+          "title": "Legal Spend ROI Analysis",
+          "x_axis": "Practice_Area",
+          "y_axis": "ROI_Percentage",
+          "color": "Investment_Category",
+          "position": {"x": 0, "y": 3, "width": 4, "height": 3}
+        },
+        {
+          "type": "pie_chart",
+          "title": "Legal Spend Allocation",
+          "category": "Spend_Category",
+          "values": "Spend_Amount",
+          "position": {"x": 4, "y": 3, "width": 2, "height": 3}
+        },
+        {
+          "type": "gauge_chart",
+          "title": "Budget Utilization Rate",
+          "value": "Budget_Utilization",
+          "target": "Target_Utilization",
+          "min": 0,
+          "max": 120,
+          "position": {"x": 6, "y": 3, "width": 2, "height": 3}
+        },
+        {
+          "type": "line_chart",
+          "title": "Forecast vs. Actual Legal Costs",
+          "x_axis": "Month",
+          "y_axis": ["Forecasted_Cost", "Actual_Cost", "Variance"],
+          "position": {"x": 0, "y": 6, "width": 8, "height": 2}
+        }
+      ]
+    },
+    {
+      "name": "Risk Analytics",
+      "layout": "risk_management",
+      "visuals": [
+        {
+          "type": "tornado_chart",
+          "title": "Top Legal Risk Factors Impact Analysis",
+          "categories": ["Regulatory_Changes", "Litigation_Exposure", "Contract_Breaches", "Compliance_Violations", "IP_Infringement"],
+          "values": ["Downside_Impact", "Upside_Mitigation"],
+          "position": {"x": 0, "y": 0, "width": 4, "height": 3}
+        },
+        {
+          "type": "heat_map",
+          "title": "Risk Probability vs. Impact Matrix",
+          "x_axis": "Risk_Probability",
+          "y_axis": "Financial_Impact",
+          "values": "Risk_Priority_Score",
+          "position": {"x": 4, "y": 0, "width": 4, "height": 3}
+        },
+        {
+          "type": "area_chart",
+          "title": "Legal Risk Exposure Trend",
+          "x_axis": "Month",
+          "y_axis": "Risk_Exposure_Value",
+          "series": ["Mitigated_Risk", "Residual_Risk", "New_Risk"],
+          "position": {"x": 0, "y": 3, "width": 4, "height": 3}
+        },
+        {
+          "type": "bullet_chart",
+          "title": "Risk Mitigation KPIs",
+          "categories": ["Risk_Identification", "Response_Time", "Mitigation_Effectiveness", "Cost_Avoidance"],
+          "actual": "Actual_Performance",
+          "target": "Target_Performance",
+          "position": {"x": 4, "y": 3, "width": 4, "height": 3}
+        },
+        {
+          "type": "sankey_diagram",
+          "title": "Risk Flow and Mitigation Strategies",
+          "source": "Risk_Category",
+          "target": "Mitigation_Strategy",
+          "values": "Risk_Value",
+          "position": {"x": 0, "y": 6, "width": 8, "height": 2}
+        }
+      ]
+    },
+    {
+      "name": "Performance Analytics",
+      "layout": "kpi_dashboard",
+      "visuals": [
+        {
+          "type": "scorecard",
+          "title": "Legal Operations KPI Scorecard",
+          "metrics": [
+            {"name": "Case_Win_Rate", "value": "Win_Rate_Percentage", "format": "0.0%"},
+            {"name": "Average_Case_Duration", "value": "Avg_Duration_Days", "format": "0"},
+            {"name": "Client_Satisfaction", "value": "Satisfaction_Score", "format": "0.0"},
+            {"name": "Compliance_Rating", "value": "Compliance_Score", "format": "0.0"}
+          ],
+          "position": {"x": 0, "y": 0, "width": 8, "height": 2}
+        },
+        {
+          "type": "line_chart",
+          "title": "Key Performance Indicators Trend",
+          "x_axis": "Month",
+          "y_axis": ["Win_Rate", "Client_Satisfaction", "Efficiency_Score", "Cost_Effectiveness"],
+          "position": {"x": 0, "y": 2, "width": 4, "height": 3}
+        },
+        {
+          "type": "bar_chart",
+          "title": "Attorney Productivity Analysis",
+          "x_axis": "Attorney_Name",
+          "y_axis": "Billable_Hours_Efficiency",
+          "color": "Practice_Area",
+          "position": {"x": 4, "y": 2, "width": 4, "height": 3}
+        },
+        {
+          "type": "spider_chart",
+          "title": "Legal Department Performance vs. Benchmarks",
+          "metrics": ["Cost_Efficiency", "Risk_Management", "Compliance", "Client_Service", "Innovation"],
+          "series": ["Our_Performance", "Industry_Benchmark", "Best_Practice"],
+          "position": {"x": 0, "y": 5, "width": 4, "height": 3}
+        },
+        {
+          "type": "gauge_chart",
+          "title": "Overall Legal Operations Efficiency",
+          "value": "Efficiency_Index",
+          "target": "Target_Efficiency",
+          "min": 0,
+          "max": 100,
+          "position": {"x": 4, "y": 5, "width": 2, "height": 3}
+        },
+        {
+          "type": "histogram",
+          "title": "Matter Resolution Time Distribution",
+          "x_axis": "Resolution_Time_Days",
+          "y_axis": "Matter_Count",
+          "position": {"x": 6, "y": 5, "width": 2, "height": 3}
+        }
+      ]
+    }
+  ],
+  "data_model": {
+    "tables": [
+      {
+        "name": "Legal_Cases",
+        "columns": [
+          {"name": "Case_ID", "type": "Text", "key": true},
+          {"name": "Case_Number", "type": "Text"},
+          {"name": "Case_Name", "type": "Text"},
+          {"name": "Practice_Area", "type": "Text"},
+          {"name": "Case_Type", "type": "Text"},
+          {"name": "Filing_Date", "type": "Date"},
+          {"name": "Status", "type": "Text"},
+          {"name": "Risk_Level", "type": "Text"},
+          {"name": "Potential_Exposure", "type": "Currency"},
+          {"name": "Assigned_Attorney", "type": "Text"},
+          {"name": "Opposing_Counsel", "type": "Text"}
+        ]
+      },
+      {
+        "name": "Legal_Expenses",
+        "columns": [
+          {"name": "Expense_ID", "type": "Text", "key": true},
+          {"name": "Case_ID", "type": "Text", "foreign_key": "Legal_Cases.Case_ID"},
+          {"name": "Expense_Date", "type": "Date"},
+          {"name": "Expense_Category", "type": "Text"},
+          {"name": "Vendor_Name", "type": "Text"},
+          {"name": "Amount", "type": "Currency"},
+          {"name": "Budget_Category", "type": "Text"},
+          {"name": "Approval_Status", "type": "Text"}
+        ]
+      },
+      {
+        "name": "Contracts",
+        "columns": [
+          {"name": "Contract_ID", "type": "Text", "key": true},
+          {"name": "Contract_Type", "type": "Text"},
+          {"name": "Counterparty", "type": "Text"},
+          {"name": "Contract_Value", "type": "Currency"},
+          {"name": "Start_Date", "type": "Date"},
+          {"name": "End_Date", "type": "Date"},
+          {"name": "Risk_Score", "type": "Decimal"},
+          {"name": "Performance_Score", "type": "Decimal"},
+          {"name": "Renewal_Status", "type": "Text"}
+        ]
+      },
+      {
+        "name": "Compliance_Metrics",
+        "columns": [
+          {"name": "Metric_ID", "type": "Text", "key": true},
+          {"name": "Business_Unit", "type": "Text"},
+          {"name": "Compliance_Area", "type": "Text"},
+          {"name": "Assessment_Date", "type": "Date"},
+          {"name": "Compliance_Score", "type": "Decimal"},
+          {"name": "Risk_Rating", "type": "Text"},
+          {"name": "Action_Required", "type": "Text"},
+          {"name": "Target_Score", "type": "Decimal"}
+        ]
+      },
+      {
+        "name": "Vendors",
+        "columns": [
+          {"name": "Vendor_ID", "type": "Text", "key": true},
+          {"name": "Vendor_Name", "type": "Text"},
+          {"name": "Practice_Area", "type": "Text"},
+          {"name": "Diversity_Classification", "type": "Text"},
+          {"name": "Performance_Rating", "type": "Decimal"},
+          {"name": "Annual_Spend", "type": "Currency"},
+          {"name": "Contract_Start", "type": "Date"},
+          {"name": "Contract_End", "type": "Date"}
+        ]
+      }
+    ],
+    "measures": [
+      {
+        "name": "Total_Legal_Spend",
+        "formula": "SUM(Legal_Expenses[Amount])",
+        "format": "$#,##0,,.0M"
+      },
+      {
+        "name": "Active_Case_Count",
+        "formula": "COUNTROWS(FILTER(Legal_Cases, Legal_Cases[Status] = \"Active\"))",
+        "format": "#,##0"
+      },
+      {
+        "name": "Average_Compliance_Score",
+        "formula": "AVERAGE(Compliance_Metrics[Compliance_Score])",
+        "format": "0.0"
+      },
+      {
+        "name": "Contract_Value_at_Risk",
+        "formula": "SUMX(FILTER(Contracts, Contracts[Risk_Score] > 7), Contracts[Contract_Value])",
+        "format": "$#,##0,,.0M"
+      },
+      {
+        "name": "Budget_Variance",
+        "formula": "([Actual_Spend] - [Budgeted_Spend]) / [Budgeted_Spend]",
+        "format": "+0.0%;-0.0%"
+      },
+      {
+        "name": "Case_Win_Rate",
+        "formula": "DIVIDE(COUNTROWS(FILTER(Legal_Cases, Legal_Cases[Outcome] = \"Won\")), COUNTROWS(Legal_Cases))",
+        "format": "0.0%"
+      },
+      {
+        "name": "Risk_Adjusted_Exposure",
+        "formula": "SUMX(Legal_Cases, Legal_Cases[Potential_Exposure] * Legal_Cases[Risk_Probability])",
+        "format": "$#,##0,,.0M"
+      }
+    ]
+  },
+  "filters": [
+    {"field": "Filing_Date", "type": "date_range", "default": "Last_24_Months"},
+    {"field": "Practice_Area", "type": "multi_select", "default": "All"},
+    {"field": "Business_Unit", "type": "multi_select", "default": "All"},
+    {"field": "Risk_Level", "type": "single_select", "default": "All"},
+    {"field": "Status", "type": "multi_select", "default": ["Active", "Pending"]}
+  ],
+  "refresh_settings": {
+    "auto_refresh": true,
+    "refresh_interval": "4_hours",
+    "data_sources": [
+      {"name": "Case_Management_System", "refresh_type": "incremental"},
+      {"name": "Financial_System", "refresh_type": "daily"},
+      {"name": "Compliance_Platform", "refresh_type": "real_time"},
+      {"name": "Contract_Database", "refresh_type": "daily"}
+    ]
+  },
+  "security": {
+    "row_level_security": true,
+    "user_roles": ["Executive", "General_Counsel", "Legal_Operations", "Compliance_Officer", "Attorney"],
+    "data_classification": "Highly_Confidential",
+    "attorney_client_privilege": true,
+    "access_controls": {
+      "Executive": ["All_Pages", "All_Data"],
+      "General_Counsel": ["All_Pages", "All_Data"],
+      "Legal_Operations": ["All_Pages", "Operational_Data"],
+      "Compliance_Officer": ["Compliance_Monitoring", "Risk_Analytics", "Performance_Analytics"],
+      "Attorney": ["Litigation_Management", "Contract_Analytics", "Performance_Analytics"]
+    }
+  },
+  "alerts": [
+    {"condition": "Risk_Score > 8", "action": "Immediate_Email", "recipients": ["General_Counsel", "Risk_Manager"]},
+    {"condition": "Compliance_Score < 7", "action": "Dashboard_Alert", "priority": "High"},
+    {"condition": "Budget_Variance > 15%", "action": "Email_Notification", "priority": "Medium"},
+    {"condition": "Contract_Expiry < 30_Days", "action": "Task_Creation", "priority": "Medium"},
+    {"condition": "New_Regulatory_Change", "action": "Compliance_Workflow", "priority": "High"}
+  ],
+  "privacy_protection": {
+    "attorney_client_privilege": true,
+    "data_masking": ["Client_Names", "Sensitive_Case_Details"],
+    "access_logging": true,
+    "encryption": "AES_256",
+    "retention_policy": "7_years_post_case_closure"
+  }
+}
