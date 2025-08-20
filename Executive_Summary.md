@@ -78,7 +78,7 @@
 
 ## 📞 **Contact Information**
 
-**Emilio Cardenas** | MIT PhD AI Automation | Harvard MBA  
+**Emilio Cardenas** | Principal Data Scientist & Legal Tech Expert  
 📧 emilio.cardenas@legal-ai.com | 📱 +1 (555) 123-4567
 
 ---
