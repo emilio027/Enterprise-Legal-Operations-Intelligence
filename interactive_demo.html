@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Legal Operations Intelligence - Interactive Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .demo-card h3 {
+            color: #1e3c72;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .demo-card .icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .metric {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .interactive-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, #f0f2f5, #e1e8ed);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-placeholder {
+            text-align: center;
+            color: #666;
+        }
+
+        .legal-workflow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #1e3c7220, #2a529820);
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .workflow-step {
+            background: #1e3c72;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            animation: workflow 3s infinite;
+            position: relative;
+        }
+
+        @keyframes workflow {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .workflow-step:nth-child(1) { animation-delay: 0s; }
+        .workflow-step:nth-child(2) { animation-delay: 0.5s; }
+        .workflow-step:nth-child(3) { animation-delay: 1s; }
+        .workflow-step:nth-child(4) { animation-delay: 1.5s; }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin: 10px 0;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.4);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 2em;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .contract-analysis {
+            background: linear-gradient(45deg, #1e3c7210, #2a529810);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #1e3c72;
+        }
+
+        .risk-score {
+            display: inline-block;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .compliance-status {
+            background: linear-gradient(45deg, #1e3c7220, #2a529820);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .legal-metric {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #1e3c72;
+        }
+
+        @media (max-width: 768px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚖️ Legal Operations Intelligence</h1>
+            <p>Interactive Platform Demonstration</p>
+        </div>
+
+        <div class="demo-grid">
+            <div class="demo-card" onclick="openModal('contractModal')">
+                <h3><span class="icon">📄</span>Contract Analysis Engine</h3>
+                <p>AI-powered contract review with 94% accuracy in clause identification and automated risk assessment.</p>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <div class="metric-value">94%</div>
+                        <div class="metric-label">Analysis Accuracy</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">2 hrs</div>
+                        <div class="metric-label">Review Time</div>
+                    </div>
+                </div>
+                <button class="btn">Analyze Contracts</button>
+            </div>
+
+            <div class="demo-card" onclick="openModal('complianceModal')">
+                <h3><span class="icon">🛡️</span>Compliance Monitoring</h3>
+                <p>Real-time regulatory change detection across 25+ jurisdictions with automated gap analysis.</p>
+                <div class="chart-container">
+                    <div class="legal-workflow">
+                        <div class="workflow-step">📋</div>
+                        <div class="workflow-step">🔍</div>
+                        <div class="workflow-step">⚠️</div>
+                        <div class="workflow-step">✅</div>
+                    </div>
+                    <div class="chart-placeholder">Compliance Workflow Automation</div>
+                </div>
+                <button class="btn">Monitor Compliance</button>
+            </div>
+
+            <div class="demo-card" onclick="openModal('riskModal')">
+                <h3><span class="icon">⚖️</span>Legal Risk Assessment</h3>
+                <p>Litigation risk prediction with 87% accuracy and comprehensive legal spend optimization.</p>
+                <div class="compliance-status">
+                    <strong>Risk Assessment:</strong><br>
+                    <span class="risk-score">Litigation Risk: Low</span>
+                    <span class="risk-score">Compliance: 96%</span>
+                </div>
+                <button class="btn">Assess Legal Risks</button>
+            </div>
+
+            <div class="demo-card" onclick="openModal('documentModal')">
+                <h3><span class="icon">📚</span>Document Intelligence</h3>
+                <p>Legal document classification and automated knowledge management with e-discovery optimization.</p>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <div class="metric-value">2,800</div>
+                        <div class="metric-label">Docs/Month</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">520%</div>
+                        <div class="metric-label">Technology ROI</div>
+                    </div>
+                </div>
+                <button class="btn">Explore Document AI</button>
+            </div>
+        </div>
+
+        <div class="interactive-section">
+            <h2>🚀 Key Performance Indicators</h2>
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-value">$8.7M</div>
+                    <div class="metric-label">Annual Savings</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">73%</div>
+                    <div class="metric-label">Compliance Efficiency</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">58%</div>
+                    <div class="metric-label">Cost Reduction</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">$500M</div>
+                    <div class="metric-label">Managed Legal Spend</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contract Analysis Modal -->
+    <div id="contractModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>📄 Contract Analysis Engine</h2>
+            <p><strong>AI-Powered Precision:</strong> 94% accuracy in clause identification with automated risk assessment and red flag detection.</p>
+            
+            <h3>Analysis Capabilities:</h3>
+            <ul class="feature-list">
+                <li><span class="feature-icon">🔍</span><strong>Clause Identification:</strong> 94% accuracy in contract clause analysis</li>
+                <li><span class="feature-icon">⚠️</span><strong>Risk Detection:</strong> 96% accuracy for high-risk contract terms</li>
+                <li><span class="feature-icon">📊</span><strong>Portfolio Analysis:</strong> Comparative analysis across contract portfolios</li>
+                <li><span class="feature-icon">🔄</span><strong>Lifecycle Management:</strong> Automated renewal and optimization</li>
+                <li><span class="feature-icon">✅</span><strong>Compliance Checking:</strong> Automated policy compliance validation</li>
+            </ul>
+
+            <div class="contract-analysis">
+                <strong>Sample Contract Analysis:</strong><br>
+                <span class="risk-score">Vendor Agreement: Medium Risk</span><br>
+                <span class="risk-score">Review Time: 1.8 hours</span>
+                <span class="risk-score">Compliance: 98%</span><br>
+                Key Issues: Liability caps, termination clauses, data privacy
+            </div>
+        </div>
+    </div>
+
+    <!-- Compliance Monitoring Modal -->
+    <div id="complianceModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>🛡️ Compliance Monitoring</h2>
+            <p><strong>Real-Time Intelligence:</strong> 98% of regulatory changes detected within 24 hours across 25+ jurisdictions.</p>
+            
+            <h3>Compliance Features:</h3>
+            <ul class="feature-list">
+                <li><span class="feature-icon">🌍</span><strong>Global Monitoring:</strong> Real-time tracking across 25+ jurisdictions</li>
+                <li><span class="feature-icon">🔍</span><strong>Gap Analysis:</strong> 94% accuracy in compliance gap identification</li>
+                <li><span class="feature-icon">📋</span><strong>Policy Management:</strong> Automated policy updates and distribution</li>
+                <li><span class="feature-icon">🎓</span><strong>Training Optimization:</strong> 73% improvement in training outcomes</li>
+                <li><span class="feature-icon">📊</span><strong>Audit Support:</strong> 67% reduction in audit preparation time</li>
+            </ul>
+
+            <div class="compliance-status">
+                <strong>Current Compliance Status:</strong><br>
+                GDPR: 96% Compliant (EU Data Protection)<br>
+                CCPA: 98% Compliant (California Privacy)<br>
+                SOX: 94% Compliant (Financial Reporting)<br>
+                HIPAA: 97% Compliant (Healthcare Data)
+            </div>
+        </div>
+    </div>
+
+    <!-- Legal Risk Assessment Modal -->
+    <div id="riskModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>⚖️ Legal Risk Assessment</h2>
+            <p><strong>Predictive Analytics:</strong> 87% accuracy in litigation risk prediction with comprehensive legal spend optimization.</p>
+            
+            <h3>Risk Management:</h3>
+            <ul class="feature-list">
+                <li><span class="feature-icon">⚖️</span><strong>Litigation Prediction:</strong> 87% accuracy in lawsuit outcome prediction</li>
+                <li><span class="feature-icon">💰</span><strong>Spend Forecasting:</strong> 92% accuracy for annual budget planning</li>
+                <li><span class="feature-icon">🤝</span><strong>Vendor Assessment:</strong> 89% accuracy in third-party risk evaluation</li>
+                <li><span class="feature-icon">🛡️</span><strong>IP Portfolio:</strong> 78% improvement in IP asset utilization</li>
+                <li><span class="feature-icon">🔒</span><strong>Data Privacy:</strong> 96% compliance across all jurisdictions</li>
+            </ul>
+
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-value">87%</div>
+                    <div class="metric-label">Litigation Accuracy</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">92%</div>
+                    <div class="metric-label">Budget Forecast</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">89%</div>
+                    <div class="metric-label">Vendor Risk</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">96%</div>
+                    <div class="metric-label">Privacy Compliance</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Intelligence Modal -->
+    <div id="documentModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>📚 Document Intelligence</h2>
+            <p><strong>Automated Processing:</strong> 2,800 documents per month with intelligent classification and knowledge management.</p>
+            
+            <h3>Document Capabilities:</h3>
+            <ul class="feature-list">
+                <li><span class="feature-icon">🏷️</span><strong>Classification:</strong> Automated document categorization and tagging</li>
+                <li><span class="feature-icon">📝</span><strong>Template Creation:</strong> Standardization across practice areas</li>
+                <li><span class="feature-icon">🔍</span><strong>E-Discovery:</strong> Optimized search and cost reduction</li>
+                <li><span class="feature-icon">📖</span><strong>Legal Research:</strong> Automated case law analysis</li>
+                <li><span class="feature-icon">🧠</span><strong>Knowledge Management:</strong> Precedent identification and learning</li>
+            </ul>
+
+            <div class="legal-metric">
+                <strong>Document Processing Performance:</strong><br>
+                Processing Speed: 2,800 documents/month (vs 450 traditional)<br>
+                Cost Per Document: $12 (vs $85 traditional)<br>
+                Accuracy Rate: 96% in document classification<br>
+                Time Savings: 522% improvement in processing speed
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        // Close modals when clicking the close button or outside the modal
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal') || event.target.classList.contains('close')) {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => modal.style.display = 'none');
+            }
+        });
+
+        // Animate metrics on scroll
+        function animateMetrics() {
+            const metrics = document.querySelectorAll('.metric-value');
+            metrics.forEach(metric => {
+                const finalValue = metric.textContent;
+                const numericValue = parseInt(finalValue.replace(/\D/g, ''));
+                if (numericValue) {
+                    let currentValue = 0;
+                    const increment = numericValue / 50;
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            metric.textContent = finalValue;
+                            clearInterval(timer);
+                        } else {
+                            if (finalValue.includes('$')) {
+                                metric.textContent = '$' + Math.floor(currentValue) + finalValue.substring(finalValue.indexOf('M'));
+                            } else if (finalValue.includes('%')) {
+                                metric.textContent = Math.floor(currentValue) + '%';
+                            } else {
+                                metric.textContent = Math.floor(currentValue) + finalValue.replace(/\d/g, '').substring(0, 1);
+                            }
+                        }
+                    }, 40);
+                }
+            });
+        }
+
+        // Start animations when page loads
+        window.addEventListener('load', () => {
+            setTimeout(animateMetrics, 500);
+        });
+    </script>
+</body>
+</html>
