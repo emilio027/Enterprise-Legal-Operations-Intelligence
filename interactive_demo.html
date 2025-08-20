@@ -3,175 +3,499 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise Legal Operations Intelligence - Interactive Demo</title>
+    <title>Enterprise Legal Operations Intelligence | Executive Analytics Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <style>
-        * {
+        /* Design System Variables - Based on Pinterest Aesthetic */
+        :root {
+            /* Monochromatic Core Palette */
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray-50: #FAFAFA;
+            --color-gray-100: #F5F5F5;
+            --color-gray-200: #EEEEEE;
+            --color-gray-300: #E0E0E0;
+            --color-gray-400: #BDBDBD;
+            --color-gray-500: #9E9E9E;
+            --color-gray-600: #757575;
+            --color-gray-700: #616161;
+            --color-gray-800: #424242;
+            --color-gray-900: #212121;
+            
+            /* Strategic Accent Colors */
+            --color-accent-primary: #FF3B30;
+            --color-accent-blue: #007AFF;
+            --color-accent-green: #34C759;
+            --color-accent-orange: #FF9500;
+            
+            /* Typography System */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-weight-light: 300;
+            --font-weight-regular: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
+            --font-weight-extrabold: 800;
+            --font-weight-black: 900;
+            
+            /* Typography Scale */
+            --text-xs: 0.75rem;      /* 12px */
+            --text-sm: 0.875rem;     /* 14px */
+            --text-base: 1rem;       /* 16px */
+            --text-lg: 1.125rem;     /* 18px */
+            --text-xl: 1.25rem;      /* 20px */
+            --text-2xl: 1.5rem;      /* 24px */
+            --text-3xl: 1.875rem;    /* 30px */
+            --text-4xl: 2.25rem;     /* 36px */
+            --text-5xl: 3rem;        /* 48px */
+            --text-6xl: 3.75rem;     /* 60px */
+            
+            /* Spacing System - 8pt Grid */
+            --spacing-1: 0.125rem;   /* 2px */
+            --spacing-2: 0.25rem;    /* 4px */
+            --spacing-3: 0.375rem;   /* 6px */
+            --spacing-4: 0.5rem;     /* 8px */
+            --spacing-5: 0.625rem;   /* 10px */
+            --spacing-6: 0.75rem;    /* 12px */
+            --spacing-8: 1rem;       /* 16px */
+            --spacing-10: 1.25rem;   /* 20px */
+            --spacing-12: 1.5rem;    /* 24px */
+            --spacing-16: 2rem;      /* 32px */
+            --spacing-20: 2.5rem;    /* 40px */
+            --spacing-24: 3rem;      /* 48px */
+            --spacing-32: 4rem;      /* 64px */
+            --spacing-40: 5rem;      /* 80px */
+            --spacing-48: 6rem;      /* 96px */
+            --spacing-64: 8rem;      /* 128px */
+            
+            /* Shadow System */
+            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            
+            /* Border Radius */
+            --radius-sm: 0.125rem;    /* 2px */
+            --radius-md: 0.375rem;    /* 6px */
+            --radius-lg: 0.5rem;      /* 8px */
+            --radius-xl: 0.75rem;     /* 12px */
+            --radius-2xl: 1rem;       /* 16px */
+            
+            /* Transitions */
+            --transition-fast: 150ms ease-out;
+            --transition-base: 250ms ease-out;
+            --transition-slow: 350ms ease-out;
+        }
+
+        /* Reset and Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: #333;
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-regular);
+            color: var(--color-gray-900);
+            background-color: var(--color-white);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .container {
-            max-width: 1400px;
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .navbar-container {
+            max-width: 1440px;
             margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            color: white;
-        }
-
-        .header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
-        .demo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .demo-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .demo-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        }
-
-        .demo-card h3 {
-            color: #1e3c72;
-            font-size: 1.5em;
-            margin-bottom: 15px;
+            padding: var(--spacing-4) var(--spacing-8);
             display: flex;
+            justify-content: space-between;
             align-items: center;
         }
 
-        .demo-card .icon {
-            font-size: 2em;
-            margin-right: 15px;
+        .navbar-logo {
+            font-size: var(--text-xl);
+            font-weight: var(--font-weight-black);
+            color: var(--color-black);
+            text-decoration: none;
+            letter-spacing: -0.02em;
         }
 
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            gap: var(--spacing-8);
         }
 
-        .metric {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
+        .navbar-link {
+            color: var(--color-gray-600);
+            text-decoration: none;
+            font-weight: var(--font-weight-medium);
+            font-size: var(--text-sm);
+            transition: var(--transition-fast);
+        }
+
+        .navbar-link:hover {
+            color: var(--color-black);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: var(--spacing-24);
+            padding-bottom: var(--spacing-32);
+            background: var(--color-white);
+        }
+
+        .hero-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-8);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
             text-align: center;
+        }
+
+        .hero-title {
+            font-size: var(--text-6xl);
+            font-weight: var(--font-weight-black);
+            color: var(--color-black);
+            letter-spacing: -0.04em;
+            margin-bottom: var(--spacing-6);
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: var(--text-xl);
+            font-weight: var(--font-weight-regular);
+            color: var(--color-gray-600);
+            margin-bottom: var(--spacing-12);
+        }
+
+        .hero-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-8);
+            margin-top: var(--spacing-16);
+        }
+
+        .metric-item {
+            text-align: center;
+            padding: var(--spacing-8);
         }
 
         .metric-value {
-            font-size: 2em;
-            font-weight: bold;
-            margin-bottom: 5px;
+            display: block;
+            font-size: var(--text-4xl);
+            font-weight: var(--font-weight-black);
+            color: var(--color-black);
+            letter-spacing: -0.02em;
         }
 
         .metric-label {
-            font-size: 0.9em;
-            opacity: 0.9;
+            font-size: var(--text-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: var(--spacing-2);
         }
 
-        .interactive-section {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin: 30px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        /* Dashboard Container */
+        .dashboard {
+            padding: var(--spacing-32) 0;
+            background: var(--color-gray-50);
         }
 
-        .chart-container {
-            width: 100%;
-            height: 300px;
-            background: linear-gradient(45deg, #f0f2f5, #e1e8ed);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px 0;
-            position: relative;
-            overflow: hidden;
+        .dashboard-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-8);
         }
 
-        .chart-placeholder {
+        .dashboard-header {
             text-align: center;
-            color: #666;
+            margin-bottom: var(--spacing-20);
         }
 
-        .legal-workflow {
-            position: absolute;
+        .dashboard-title {
+            font-size: var(--text-4xl);
+            font-weight: var(--font-weight-black);
+            color: var(--color-black);
+            letter-spacing: -0.02em;
+            margin-bottom: var(--spacing-4);
+        }
+
+        .dashboard-subtitle {
+            font-size: var(--text-lg);
+            color: var(--color-gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-8);
+            margin-bottom: var(--spacing-12);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: var(--spacing-6);
+            align-items: end;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+        }
+
+        .control-label {
+            font-size: var(--text-xs);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-700);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .control-select,
+        .control-input {
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-3) var(--spacing-4);
+            font-size: var(--text-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+            transition: var(--transition-fast);
+        }
+
+        .control-select:focus,
+        .control-input:focus {
+            outline: none;
+            border-color: var(--color-accent-primary);
+            box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.1);
+        }
+
+        .control-button {
+            background: var(--color-black);
+            border: none;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-3) var(--spacing-6);
+            font-size: var(--text-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-white);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .control-button:hover {
+            background: var(--color-gray-800);
+            transform: translateY(-1px);
+        }
+
+        /* Visualization Grid */
+        .viz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: var(--spacing-8);
+            margin-bottom: var(--spacing-16);
+        }
+
+        .viz-card {
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-base);
+            cursor: pointer;
+        }
+
+        .viz-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .viz-header {
+            padding: var(--spacing-6) var(--spacing-8);
+            border-bottom: 1px solid var(--color-gray-200);
+            background: var(--color-white);
+        }
+
+        .viz-title {
+            font-size: var(--text-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-black);
+            margin: 0;
+        }
+
+        .viz-content {
+            padding: var(--spacing-8);
+            height: 400px;
+            position: relative;
+        }
+
+        /* Data Table */
+        .data-table-container {
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: var(--color-gray-50);
+            border-bottom: 1px solid var(--color-gray-200);
+            padding: var(--spacing-4) var(--spacing-6);
+            text-align: left;
+            font-size: var(--text-xs);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-700);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .data-table td {
+            padding: var(--spacing-4) var(--spacing-6);
+            border-bottom: 1px solid var(--color-gray-100);
+            font-size: var(--text-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+        }
+
+        .data-table tr:hover {
+            background: var(--color-gray-50);
+            cursor: pointer;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Status Indicators */
+        .status-positive {
+            color: var(--color-accent-green);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .status-negative {
+            color: var(--color-accent-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .status-neutral {
+            color: var(--color-accent-orange);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, #1e3c7220, #2a529820);
-            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            background: var(--color-white);
+            margin: 5% auto;
+            border-radius: var(--radius-2xl);
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .modal-header {
+            padding: var(--spacing-8);
+            border-bottom: 1px solid var(--color-gray-200);
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
         }
 
-        .workflow-step {
-            background: #1e3c72;
-            color: white;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2em;
-            animation: workflow 3s infinite;
-            position: relative;
+        .modal-title {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-black);
+            margin: 0;
         }
 
-        @keyframes workflow {
-            0%, 100% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.1); opacity: 1; }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: var(--text-2xl);
+            color: var(--color-gray-500);
+            cursor: pointer;
+            padding: var(--spacing-2);
+            transition: var(--transition-fast);
         }
 
-        .workflow-step:nth-child(1) { animation-delay: 0s; }
-        .workflow-step:nth-child(2) { animation-delay: 0.5s; }
-        .workflow-step:nth-child(3) { animation-delay: 1s; }
-        .workflow-step:nth-child(4) { animation-delay: 1.5s; }
+        .modal-close:hover {
+            color: var(--color-black);
+        }
 
+        .modal-body {
+            padding: var(--spacing-8);
+        }
+
+        /* Feature Lists */
         .feature-list {
             list-style: none;
             padding: 0;
+            margin: var(--spacing-6) 0;
         }
 
         .feature-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
             display: flex;
             align-items: center;
+            padding: var(--spacing-3) 0;
+            border-bottom: 1px solid var(--color-gray-200);
+            font-size: var(--text-sm);
+            color: var(--color-gray-700);
         }
 
         .feature-list li:last-child {
@@ -179,286 +503,319 @@
         }
 
         .feature-icon {
-            margin-right: 15px;
-            font-size: 1.2em;
+            margin-right: var(--spacing-3);
+            color: var(--color-gray-500);
         }
 
-        .btn {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s ease;
-            margin: 10px 0;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.4);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-        }
-
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .close {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 2em;
-            cursor: pointer;
-            color: #999;
-        }
-
-        .close:hover {
-            color: #333;
-        }
-
-        .contract-analysis {
-            background: linear-gradient(45deg, #1e3c7210, #2a529810);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 10px 0;
-            border-left: 4px solid #1e3c72;
-        }
-
-        .risk-score {
-            display: inline-block;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin: 5px;
-        }
-
-        .compliance-status {
-            background: linear-gradient(45deg, #1e3c7220, #2a529820);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 15px 0;
-        }
-
+        /* Legal Analytics Cards */
         .legal-metric {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 10px 0;
-            border-left: 4px solid #1e3c72;
+            background: var(--color-gray-50);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-6);
+            margin: var(--spacing-4) 0;
+            border-left: 4px solid var(--color-accent-primary);
         }
 
-        @media (max-width: 768px) {
-            .demo-grid {
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--color-gray-300);
+            border-radius: 50%;
+            border-top-color: var(--color-black);
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .viz-grid {
                 grid-template-columns: 1fr;
             }
             
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .metrics-grid {
+            .hero-metrics {
                 grid-template-columns: repeat(2, 1fr);
             }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: var(--text-4xl);
+            }
+            
+            .hero-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .control-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .navbar-menu {
+                display: none;
+            }
+        }
+
+        /* Chart.js Customizations */
+        .chart-container {
+            position: relative;
+            height: 100%;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>⚖️ Legal Operations Intelligence</h1>
-            <p>Interactive Platform Demonstration</p>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="navbar-logo">LEGAL OPS INTELLIGENCE</a>
+            <ul class="navbar-menu">
+                <li><a href="#dashboard" class="navbar-link">DASHBOARD</a></li>
+                <li><a href="#contracts" class="navbar-link">CONTRACTS</a></li>
+                <li><a href="#compliance" class="navbar-link">COMPLIANCE</a></li>
+                <li><a href="#analytics" class="navbar-link">ANALYTICS</a></li>
+            </ul>
         </div>
+    </nav>
 
-        <div class="demo-grid">
-            <div class="demo-card" onclick="openModal('contractModal')">
-                <h3><span class="icon">📄</span>Contract Analysis Engine</h3>
-                <p>AI-powered contract review with 94% accuracy in clause identification and automated risk assessment.</p>
-                <div class="metrics-grid">
-                    <div class="metric">
-                        <div class="metric-value">94%</div>
-                        <div class="metric-label">Analysis Accuracy</div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">ENTERPRISE LEGAL OPERATIONS</h1>
+                <p class="hero-subtitle">AI-powered legal intelligence platform with comprehensive contract analysis, compliance monitoring, and risk assessment across all practice areas</p>
+                
+                <div class="hero-metrics">
+                    <div class="metric-item">
+                        <span class="metric-value">94%</span>
+                        <span class="metric-label">Analysis Accuracy</span>
                     </div>
-                    <div class="metric">
-                        <div class="metric-value">2 hrs</div>
-                        <div class="metric-label">Review Time</div>
+                    <div class="metric-item">
+                        <span class="metric-value">$8.7M</span>
+                        <span class="metric-label">Annual Savings</span>
                     </div>
-                </div>
-                <button class="btn">Analyze Contracts</button>
-            </div>
-
-            <div class="demo-card" onclick="openModal('complianceModal')">
-                <h3><span class="icon">🛡️</span>Compliance Monitoring</h3>
-                <p>Real-time regulatory change detection across 25+ jurisdictions with automated gap analysis.</p>
-                <div class="chart-container">
-                    <div class="legal-workflow">
-                        <div class="workflow-step">📋</div>
-                        <div class="workflow-step">🔍</div>
-                        <div class="workflow-step">⚠️</div>
-                        <div class="workflow-step">✅</div>
+                    <div class="metric-item">
+                        <span class="metric-value">73%</span>
+                        <span class="metric-label">Efficiency Gain</span>
                     </div>
-                    <div class="chart-placeholder">Compliance Workflow Automation</div>
-                </div>
-                <button class="btn">Monitor Compliance</button>
-            </div>
-
-            <div class="demo-card" onclick="openModal('riskModal')">
-                <h3><span class="icon">⚖️</span>Legal Risk Assessment</h3>
-                <p>Litigation risk prediction with 87% accuracy and comprehensive legal spend optimization.</p>
-                <div class="compliance-status">
-                    <strong>Risk Assessment:</strong><br>
-                    <span class="risk-score">Litigation Risk: Low</span>
-                    <span class="risk-score">Compliance: 96%</span>
-                </div>
-                <button class="btn">Assess Legal Risks</button>
-            </div>
-
-            <div class="demo-card" onclick="openModal('documentModal')">
-                <h3><span class="icon">📚</span>Document Intelligence</h3>
-                <p>Legal document classification and automated knowledge management with e-discovery optimization.</p>
-                <div class="metrics-grid">
-                    <div class="metric">
-                        <div class="metric-value">2,800</div>
-                        <div class="metric-label">Docs/Month</div>
+                    <div class="metric-item">
+                        <span class="metric-value">520%</span>
+                        <span class="metric-label">ROI</span>
                     </div>
-                    <div class="metric">
-                        <div class="metric-value">520%</div>
-                        <div class="metric-label">Technology ROI</div>
-                    </div>
-                </div>
-                <button class="btn">Explore Document AI</button>
-            </div>
-        </div>
-
-        <div class="interactive-section">
-            <h2>🚀 Key Performance Indicators</h2>
-            <div class="metrics-grid">
-                <div class="metric">
-                    <div class="metric-value">$8.7M</div>
-                    <div class="metric-label">Annual Savings</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value">73%</div>
-                    <div class="metric-label">Compliance Efficiency</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value">58%</div>
-                    <div class="metric-label">Cost Reduction</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value">$500M</div>
-                    <div class="metric-label">Managed Legal Spend</div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="dashboard">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">EXECUTIVE DASHBOARD</h2>
+                <p class="dashboard-subtitle">Real-time legal operations intelligence with AI-powered contract analysis, compliance monitoring, and risk assessment across all jurisdictions</p>
+            </div>
+
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <div class="control-grid">
+                    <div class="control-group">
+                        <label class="control-label">Practice Area</label>
+                        <select id="practice-select" class="control-select">
+                            <option value="all">All Practice Areas</option>
+                            <option value="contracts">Contract Management</option>
+                            <option value="litigation">Litigation Support</option>
+                            <option value="compliance">Regulatory Compliance</option>
+                            <option value="ip">Intellectual Property</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Time Frame</label>
+                        <select id="timeframe-select" class="control-select">
+                            <option value="current">Current Quarter</option>
+                            <option value="ytd">Year to Date</option>
+                            <option value="12month">12 Month Trend</option>
+                            <option value="forecast">Risk Forecast</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Risk Level</label>
+                        <select id="risk-level" class="control-select">
+                            <option value="all">All Risk Levels</option>
+                            <option value="high">High Risk</option>
+                            <option value="medium">Medium Risk</option>
+                            <option value="low">Low Risk</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Actions</label>
+                        <button class="control-button" onclick="refreshData()">
+                            <i class="fas fa-sync-alt"></i> REFRESH
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualization Grid -->
+            <div class="viz-grid">
+                <!-- Contract Analytics -->
+                <div class="viz-card" onclick="openModal('contractModal')">
+                    <div class="viz-header">
+                        <h3 class="viz-title">CONTRACT ANALYTICS</h3>
+                    </div>
+                    <div class="viz-content">
+                        <canvas id="contract-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Compliance Dashboard -->
+                <div class="viz-card" onclick="openModal('complianceModal')">
+                    <div class="viz-header">
+                        <h3 class="viz-title">COMPLIANCE MONITORING</h3>
+                    </div>
+                    <div class="viz-content">
+                        <canvas id="compliance-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Risk Assessment -->
+                <div class="viz-card" onclick="openModal('riskModal')">
+                    <div class="viz-header">
+                        <h3 class="viz-title">LEGAL RISK ASSESSMENT</h3>
+                    </div>
+                    <div class="viz-content">
+                        <canvas id="risk-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Document Intelligence -->
+                <div class="viz-card" onclick="openModal('documentModal')">
+                    <div class="viz-header">
+                        <h3 class="viz-title">DOCUMENT INTELLIGENCE</h3>
+                    </div>
+                    <div class="viz-content">
+                        <canvas id="document-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legal Operations Data Table -->
+            <div class="data-table-container">
+                <table class="data-table" id="legal-table">
+                    <thead>
+                        <tr>
+                            <th>PRACTICE AREA</th>
+                            <th>ACTIVE MATTERS</th>
+                            <th>RISK SCORE</th>
+                            <th>COMPLIANCE</th>
+                            <th>MONTHLY SPEND</th>
+                            <th>EFFICIENCY</th>
+                        </tr>
+                    </thead>
+                    <tbody id="legal-data">
+                        <!-- Data populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
     <!-- Contract Analysis Modal -->
     <div id="contractModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>📄 Contract Analysis Engine</h2>
-            <p><strong>AI-Powered Precision:</strong> 94% accuracy in clause identification with automated risk assessment and red flag detection.</p>
-            
-            <h3>Analysis Capabilities:</h3>
-            <ul class="feature-list">
-                <li><span class="feature-icon">🔍</span><strong>Clause Identification:</strong> 94% accuracy in contract clause analysis</li>
-                <li><span class="feature-icon">⚠️</span><strong>Risk Detection:</strong> 96% accuracy for high-risk contract terms</li>
-                <li><span class="feature-icon">📊</span><strong>Portfolio Analysis:</strong> Comparative analysis across contract portfolios</li>
-                <li><span class="feature-icon">🔄</span><strong>Lifecycle Management:</strong> Automated renewal and optimization</li>
-                <li><span class="feature-icon">✅</span><strong>Compliance Checking:</strong> Automated policy compliance validation</li>
-            </ul>
-
-            <div class="contract-analysis">
-                <strong>Sample Contract Analysis:</strong><br>
-                <span class="risk-score">Vendor Agreement: Medium Risk</span><br>
-                <span class="risk-score">Review Time: 1.8 hours</span>
-                <span class="risk-score">Compliance: 98%</span><br>
-                Key Issues: Liability caps, termination clauses, data privacy
+            <div class="modal-header">
+                <h3 class="modal-title">CONTRACT ANALYTICS</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h4 style="font-weight: 700; margin-bottom: 1rem; color: #000;">ANALYSIS OVERVIEW</h4>
+                        <div class="legal-metric">
+                            <p><strong>Processing Speed:</strong> 2,800 documents/month</p>
+                            <p><strong>Accuracy Rate:</strong> <span class="status-positive">94%</span></p>
+                            <p><strong>Review Time:</strong> 2 hours (vs 16 traditional)</p>
+                            <p><strong>Cost Per Document:</strong> $12 (vs $85 traditional)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="font-weight: 700; margin-bottom: 1rem; color: #000;">KEY CAPABILITIES</h4>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-search feature-icon"></i>Clause Identification: 94% accuracy</li>
+                            <li><i class="fas fa-exclamation-triangle feature-icon"></i>Risk Detection: 96% accuracy</li>
+                            <li><i class="fas fa-chart-bar feature-icon"></i>Portfolio Analysis</li>
+                            <li><i class="fas fa-sync feature-icon"></i>Lifecycle Management</li>
+                            <li><i class="fas fa-shield-alt feature-icon"></i>Compliance Validation</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Compliance Monitoring Modal -->
+    <!-- Compliance Modal -->
     <div id="complianceModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>🛡️ Compliance Monitoring</h2>
-            <p><strong>Real-Time Intelligence:</strong> 98% of regulatory changes detected within 24 hours across 25+ jurisdictions.</p>
-            
-            <h3>Compliance Features:</h3>
-            <ul class="feature-list">
-                <li><span class="feature-icon">🌍</span><strong>Global Monitoring:</strong> Real-time tracking across 25+ jurisdictions</li>
-                <li><span class="feature-icon">🔍</span><strong>Gap Analysis:</strong> 94% accuracy in compliance gap identification</li>
-                <li><span class="feature-icon">📋</span><strong>Policy Management:</strong> Automated policy updates and distribution</li>
-                <li><span class="feature-icon">🎓</span><strong>Training Optimization:</strong> 73% improvement in training outcomes</li>
-                <li><span class="feature-icon">📊</span><strong>Audit Support:</strong> 67% reduction in audit preparation time</li>
-            </ul>
-
-            <div class="compliance-status">
-                <strong>Current Compliance Status:</strong><br>
-                GDPR: 96% Compliant (EU Data Protection)<br>
-                CCPA: 98% Compliant (California Privacy)<br>
-                SOX: 94% Compliant (Financial Reporting)<br>
-                HIPAA: 97% Compliant (Healthcare Data)
+            <div class="modal-header">
+                <h3 class="modal-title">COMPLIANCE MONITORING</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h4 style="font-weight: 700; margin-bottom: 1rem; color: #000;">GLOBAL COMPLIANCE</h4>
+                        <div class="legal-metric">
+                            <p><strong>Jurisdictions Monitored:</strong> 25+</p>
+                            <p><strong>Regulatory Changes:</strong> <span class="status-positive">98% detected within 24hrs</span></p>
+                            <p><strong>Gap Analysis:</strong> 94% accuracy</p>
+                            <p><strong>Audit Preparation:</strong> 67% time reduction</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="font-weight: 700; margin-bottom: 1rem; color: #000;">COMPLIANCE STATUS</h4>
+                        <div class="legal-metric">
+                            <p><strong>GDPR:</strong> <span class="status-positive">96% Compliant</span></p>
+                            <p><strong>CCPA:</strong> <span class="status-positive">98% Compliant</span></p>
+                            <p><strong>SOX:</strong> <span class="status-positive">94% Compliant</span></p>
+                            <p><strong>HIPAA:</strong> <span class="status-positive">97% Compliant</span></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Legal Risk Assessment Modal -->
+    <!-- Risk Assessment Modal -->
     <div id="riskModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>⚖️ Legal Risk Assessment</h2>
-            <p><strong>Predictive Analytics:</strong> 87% accuracy in litigation risk prediction with comprehensive legal spend optimization.</p>
-            
-            <h3>Risk Management:</h3>
-            <ul class="feature-list">
-                <li><span class="feature-icon">⚖️</span><strong>Litigation Prediction:</strong> 87% accuracy in lawsuit outcome prediction</li>
-                <li><span class="feature-icon">💰</span><strong>Spend Forecasting:</strong> 92% accuracy for annual budget planning</li>
-                <li><span class="feature-icon">🤝</span><strong>Vendor Assessment:</strong> 89% accuracy in third-party risk evaluation</li>
-                <li><span class="feature-icon">🛡️</span><strong>IP Portfolio:</strong> 78% improvement in IP asset utilization</li>
-                <li><span class="feature-icon">🔒</span><strong>Data Privacy:</strong> 96% compliance across all jurisdictions</li>
-            </ul>
-
-            <div class="metrics-grid">
-                <div class="metric">
-                    <div class="metric-value">87%</div>
-                    <div class="metric-label">Litigation Accuracy</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value">92%</div>
-                    <div class="metric-label">Budget Forecast</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value">89%</div>
-                    <div class="metric-label">Vendor Risk</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value">96%</div>
-                    <div class="metric-label">Privacy Compliance</div>
+            <div class="modal-header">
+                <h3 class="modal-title">LEGAL RISK ASSESSMENT</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h4 style="font-weight: 700; margin-bottom: 1rem; color: #000;">RISK ANALYTICS</h4>
+                        <div class="legal-metric">
+                            <p><strong>Litigation Prediction:</strong> <span class="status-positive">87% accuracy</span></p>
+                            <p><strong>Budget Forecasting:</strong> <span class="status-positive">92% accuracy</span></p>
+                            <p><strong>Vendor Risk Assessment:</strong> 89% accuracy</p>
+                            <p><strong>Data Privacy Compliance:</strong> <span class="status-positive">96%</span></p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="font-weight: 700; margin-bottom: 1rem; color: #000;">CURRENT RISK PROFILE</h4>
+                        <div class="legal-metric">
+                            <p><strong>Overall Risk Score:</strong> <span class="status-positive">Low (23/100)</span></p>
+                            <p><strong>Litigation Exposure:</strong> <span class="status-positive">Minimal</span></p>
+                            <p><strong>Regulatory Risk:</strong> <span class="status-neutral">Medium</span></p>
+                            <p><strong>IP Portfolio:</strong> <span class="status-positive">78% optimized</span></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -467,73 +824,258 @@
     <!-- Document Intelligence Modal -->
     <div id="documentModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>📚 Document Intelligence</h2>
-            <p><strong>Automated Processing:</strong> 2,800 documents per month with intelligent classification and knowledge management.</p>
-            
-            <h3>Document Capabilities:</h3>
-            <ul class="feature-list">
-                <li><span class="feature-icon">🏷️</span><strong>Classification:</strong> Automated document categorization and tagging</li>
-                <li><span class="feature-icon">📝</span><strong>Template Creation:</strong> Standardization across practice areas</li>
-                <li><span class="feature-icon">🔍</span><strong>E-Discovery:</strong> Optimized search and cost reduction</li>
-                <li><span class="feature-icon">📖</span><strong>Legal Research:</strong> Automated case law analysis</li>
-                <li><span class="feature-icon">🧠</span><strong>Knowledge Management:</strong> Precedent identification and learning</li>
-            </ul>
-
-            <div class="legal-metric">
-                <strong>Document Processing Performance:</strong><br>
-                Processing Speed: 2,800 documents/month (vs 450 traditional)<br>
-                Cost Per Document: $12 (vs $85 traditional)<br>
-                Accuracy Rate: 96% in document classification<br>
-                Time Savings: 522% improvement in processing speed
+            <div class="modal-header">
+                <h3 class="modal-title">DOCUMENT INTELLIGENCE</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h4 style="font-weight: 700; margin-bottom: 1rem; color: #000;">PROCESSING PERFORMANCE</h4>
+                        <div class="legal-metric">
+                            <p><strong>Documents/Month:</strong> 2,800 (vs 450 traditional)</p>
+                            <p><strong>Classification Accuracy:</strong> <span class="status-positive">96%</span></p>
+                            <p><strong>Processing Speed:</strong> 522% improvement</p>
+                            <p><strong>Technology ROI:</strong> <span class="status-positive">520%</span></p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="font-weight: 700; margin-bottom: 1rem; color: #000;">AI CAPABILITIES</h4>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-tags feature-icon"></i>Automated Classification & Tagging</li>
+                            <li><i class="fas fa-file-alt feature-icon"></i>Template Standardization</li>
+                            <li><i class="fas fa-search feature-icon"></i>E-Discovery Optimization</li>
+                            <li><i class="fas fa-book feature-icon"></i>Legal Research Automation</li>
+                            <li><i class="fas fa-brain feature-icon"></i>Knowledge Management</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Legal Operations Data
+        const legalOperationsData = [
+            { area: "Contract Management", matters: 847, risk: 23, compliance: 96, spend: 245000, efficiency: 94 },
+            { area: "Litigation Support", matters: 156, risk: 67, compliance: 89, spend: 892000, efficiency: 78 },
+            { area: "Regulatory Compliance", matters: 234, risk: 34, compliance: 94, spend: 167000, efficiency: 87 },
+            { area: "Intellectual Property", matters: 89, risk: 12, compliance: 98, spend: 134000, efficiency: 92 },
+            { area: "Employment Law", matters: 145, risk: 45, compliance: 91, spend: 198000, efficiency: 85 },
+            { area: "Data Privacy", matters: 67, risk: 28, compliance: 96, spend: 87000, efficiency: 91 },
+            { area: "Corporate Governance", matters: 43, risk: 15, compliance: 97, spend: 76000, efficiency: 94 },
+            { area: "M&A Transactions", matters: 28, risk: 42, compliance: 92, spend: 567000, efficiency: 89 }
+        ];
+
+        let contractChart, complianceChart, riskChart, documentChart;
+
+        // Initialize Dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            populateLegalTable();
+            
+            // Event listeners
+            document.getElementById('practice-select').addEventListener('change', updateDashboard);
+            document.getElementById('timeframe-select').addEventListener('change', updateDashboard);
+            document.getElementById('risk-level').addEventListener('change', updateDashboard);
+        });
+
+        // Initialize Charts with Pinterest-inspired styling
+        function initializeCharts() {
+            const chartConfig = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#757575',
+                            font: {
+                                family: 'Inter',
+                                weight: '500'
+                            }
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: '#E0E0E0',
+                            lineWidth: 1
+                        },
+                        ticks: {
+                            color: '#757575',
+                            font: {
+                                family: 'Inter',
+                                weight: '500'
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Contract Analysis Chart
+            const contractCtx = document.getElementById('contract-chart').getContext('2d');
+            contractChart = new Chart(contractCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024'],
+                    datasets: [{
+                        data: [2100, 2450, 2800, 3150],
+                        backgroundColor: '#000000',
+                        borderRadius: 4
+                    }]
+                },
+                options: chartConfig
+            });
+
+            // Compliance Chart
+            const complianceCtx = document.getElementById('compliance-chart').getContext('2d');
+            complianceChart = new Chart(complianceCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['GDPR', 'CCPA', 'SOX', 'HIPAA'],
+                    datasets: [{
+                        data: [96, 98, 94, 97],
+                        backgroundColor: ['#FF3B30', '#FF9500', '#34C759', '#007AFF'],
+                        borderWidth: 0,
+                        cutout: '70%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#424242',
+                                font: {
+                                    family: 'Inter',
+                                    weight: '600',
+                                    size: 12
+                                },
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Risk Assessment Chart
+            const riskCtx = document.getElementById('risk-chart').getContext('2d');
+            riskChart = new Chart(riskCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        data: [45, 38, 32, 28, 25, 23],
+                        borderColor: '#FF3B30',
+                        backgroundColor: 'rgba(255, 59, 48, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#FF3B30',
+                        pointBorderColor: '#FFFFFF',
+                        pointBorderWidth: 2,
+                        pointRadius: 6
+                    }]
+                },
+                options: chartConfig
+            });
+
+            // Document Processing Chart
+            const docCtx = document.getElementById('document-chart').getContext('2d');
+            documentChart = new Chart(docCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Traditional', 'AI-Powered'],
+                    datasets: [{
+                        data: [450, 2800],
+                        backgroundColor: ['#9E9E9E', '#000000'],
+                        borderRadius: 4
+                    }]
+                },
+                options: chartConfig
+            });
+        }
+
+        // Populate Legal Operations Table
+        function populateLegalTable() {
+            const tableBody = document.getElementById('legal-data');
+            tableBody.innerHTML = '';
+
+            legalOperationsData.forEach(area => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${area.area}</strong></td>
+                    <td>${area.matters}</td>
+                    <td><span class="${area.risk < 30 ? 'status-positive' : area.risk < 50 ? 'status-neutral' : 'status-negative'}">
+                        ${area.risk}/100
+                    </span></td>
+                    <td><span class="${area.compliance > 95 ? 'status-positive' : area.compliance > 90 ? 'status-neutral' : 'status-negative'}">
+                        ${area.compliance}%
+                    </span></td>
+                    <td><strong>$${area.spend.toLocaleString()}</strong></td>
+                    <td><span class="${area.efficiency > 90 ? 'status-positive' : area.efficiency > 85 ? 'status-neutral' : 'status-negative'}">
+                        ${area.efficiency}%
+                    </span></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Update Dashboard
+        function updateDashboard() {
+            // Add filter logic here
+            populateLegalTable();
+        }
+
+        // Refresh Data
+        function refreshData() {
+            const button = event.target.closest('.control-button');
+            button.innerHTML = '<div class="loading"></div> REFRESHING...';
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-sync-alt"></i> REFRESH';
+                updateDashboard();
+            }, 1500);
+        }
+
+        // Open Modal
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
         }
 
-        // Close modals when clicking the close button or outside the modal
-        document.addEventListener('click', function(event) {
-            if (event.target.classList.contains('modal') || event.target.classList.contains('close')) {
-                const modals = document.querySelectorAll('.modal');
-                modals.forEach(modal => modal.style.display = 'none');
-            }
-        });
-
-        // Animate metrics on scroll
-        function animateMetrics() {
-            const metrics = document.querySelectorAll('.metric-value');
-            metrics.forEach(metric => {
-                const finalValue = metric.textContent;
-                const numericValue = parseInt(finalValue.replace(/\D/g, ''));
-                if (numericValue) {
-                    let currentValue = 0;
-                    const increment = numericValue / 50;
-                    const timer = setInterval(() => {
-                        currentValue += increment;
-                        if (currentValue >= numericValue) {
-                            metric.textContent = finalValue;
-                            clearInterval(timer);
-                        } else {
-                            if (finalValue.includes('$')) {
-                                metric.textContent = '$' + Math.floor(currentValue) + finalValue.substring(finalValue.indexOf('M'));
-                            } else if (finalValue.includes('%')) {
-                                metric.textContent = Math.floor(currentValue) + '%';
-                            } else {
-                                metric.textContent = Math.floor(currentValue) + finalValue.replace(/\d/g, '').substring(0, 1);
-                            }
-                        }
-                    }, 40);
-                }
+        // Close Modal
+        function closeModal() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.style.display = 'none';
             });
         }
 
-        // Start animations when page loads
-        window.addEventListener('load', () => {
-            setTimeout(animateMetrics, 500);
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('.navbar-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
         });
     </script>
 </body>
